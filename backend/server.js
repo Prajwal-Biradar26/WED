@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
 import { seedSampleWedding } from './utils/seedSampleData.js';
@@ -35,7 +36,16 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static directory for uploaded media
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Serve compiled frontend dist in production if available, else serve raw frontend
+const distPath = path.join(__dirname, '../frontend/dist');
+const fallbackPath = path.join(__dirname, '../frontend');
+
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+} else {
+  app.use(express.static(fallbackPath));
+}
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -57,16 +67,18 @@ app.use('/api/rsvp', rsvpRoutes);
 app.use('/api/guestbook', guestbookRoutes);
 app.use('/api/ai', aiRoutes);
 
-// Public invitation route and SPA fallback for the frontend.
-app.get('/w/:slug', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+// SPA fallback for all non-API GET requests (handles /, /w/:slug, etc.)
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+    return next();
+  }
+  if (fs.existsSync(path.join(distPath, 'index.html'))) {
+    return res.sendFile(path.join(distPath, 'index.html'));
+  }
+  return res.sendFile(path.join(fallbackPath, 'index.html'));
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-
-// 404 Route handler
+// 404 Route handler for unhandled API routes
 app.use((req, res, next) => {
   res.status(404).json({ success: false, message: `Route not found: ${req.originalUrl}` });
 });
