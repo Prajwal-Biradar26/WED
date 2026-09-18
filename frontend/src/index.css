@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Luxury Indian Ornaments & Shimmers */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFE082 0%, #D4AF37 50%, #AA7C11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5DE7B 50%, #B88D27 100%);
+}
+
+.border-gold-gradient {
+  border-image: linear-gradient(to right, #b88d27, #f5de7b, #b88d27) 1;
+}
+
+/* Traditional Rangoli / Arch SVG masks and frames */
+.arch-frame {
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Floating animation for Diyas / Petals */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+/* Subtle gold pulse */
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.55);
+  }
+}
+
+.animate-gold-pulse {
+  animation: goldPulse 3s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #25060c;
+}
+::-webkit-scrollbar-thumb {
+  background: #8b273d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}

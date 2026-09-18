@@ -1,0 +1,13 @@
+{
+  "name": "vangmaya-wedding-invitation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pure Traditional Indian Digital Wedding Invitation Platform",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev:backend": "cd backend && node server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "test:api": "cd backend && node test_api.js"
+  }
+}

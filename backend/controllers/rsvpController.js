@@ -17,7 +17,7 @@ export const submitRSVP = async (req, res) => {
 
     // Check if wedding exists
     const wedding = await Wedding.findById(weddingId);
-    if (!wedding || wedding.status !== 'published') {
+    if (!wedding) {
       return res.status(404).json({ success: false, message: 'Wedding invitation not found' });
     }
 

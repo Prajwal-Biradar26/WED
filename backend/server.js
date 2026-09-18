@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { closeDB, connectDB } from './config/db.js';
+import { connectDB } from './config/db.js';
 import { seedSampleWedding } from './utils/seedSampleData.js';
 
 // Route imports
@@ -102,12 +102,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-const shutdown = async (signal) => {
-  console.log(`\n${signal} received. Shutting down gracefully...`);
-  await closeDB();
-  process.exit(0);
-};
-
-process.once('SIGINT', () => shutdown('SIGINT'));
-process.once('SIGTERM', () => shutdown('SIGTERM'));
